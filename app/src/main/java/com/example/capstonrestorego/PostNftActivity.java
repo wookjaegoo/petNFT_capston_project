@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -36,10 +37,9 @@ import xyz.groundx.caver_ext_kas.CaverExtKAS;
 public class PostNftActivity extends AppCompatActivity {
 
 
-    TextView post ;
-    private static List<Post> mPost;
-    public static Post mpost;
+    TextView post,title,location,description ;
     Json abijson= new Json();
+    static String photodata=null;
 
 
 
@@ -53,6 +53,11 @@ public class PostNftActivity extends AppCompatActivity {
 
         post = findViewById(R.id.post);
 
+        title= findViewById(R.id.title);
+        location=findViewById(R.id.location);
+        description=findViewById(R.id.description);
+
+
 
         resultLauncher= registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>()
@@ -62,21 +67,30 @@ public class PostNftActivity extends AppCompatActivity {
                         if (result.getResultCode() == RESULT_OK) {
                             Intent data = result.getData();
                             final int MAX_IMAGE_SIZE=28000;
-                            int compressquality=100;
+                            int compressquality=90;
                             try {
                                 InputStream is = getContentResolver().openInputStream(data.getData());
 
                                 Bitmap bitmap = BitmapFactory.decodeStream(is);
                                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                                 Bitmap resize=Bitmap.createScaledBitmap(bitmap,1000,1000,false);
-                                resize.compress(Bitmap.CompressFormat.JPEG,10,stream);
-                                int compressedboy=bitmap.getAllocationByteCount();
+                                resize.compress(Bitmap.CompressFormat.JPEG,100,stream);
+                                while(stream.toByteArray().length/1024>32)
+                                {
+                                    stream.reset();
+                                    resize.compress(Bitmap.CompressFormat.JPEG,compressquality,stream);
+                                    compressquality=compressquality-10;
+                                    if (compressquality==0)
+                                    {
+                                        compressquality=90;
+                                    }
 
+                                }
                                 byte[] byteArray = stream.toByteArray();
                                 Bitmap bitmap2 = BitmapFactory.decodeByteArray( byteArray, 0, byteArray.length );
                                 data.putExtra("image", byteArray);
-                                String photodata=byteArrayToHex(byteArray);
-                                makeNft("0x"+photodata);
+                                photodata=byteArrayToHex(byteArray);
+
 
                             } catch (IOException ie) {
                                 ie.printStackTrace();
@@ -94,6 +108,11 @@ public class PostNftActivity extends AppCompatActivity {
         post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                makeNft("0x"+photodata);
+                Toast.makeText(PostNftActivity.this, "민팅을 진행중입니다..", Toast.LENGTH_SHORT).show();
+                startActivity (new Intent( PostNftActivity.this, MainActivity.class));
+
+
 
             }
         });
@@ -127,6 +146,17 @@ public class PostNftActivity extends AppCompatActivity {
         SingleKeyring feePayer = caver.wallet.keyring.create(myAddress, myPVkey);
         caver.wallet.add(feePayer);
 
+        String titled=title.getText().toString();
+        String locationed=location.getText().toString();
+        String descriptiond=description.getText().toString();
+        if(titled.equals(null))
+            titled="";
+        if(locationed.equals(null))
+            locationed="";
+        if(descriptiond.equals(null))
+            descriptiond="";
+
+
 
 
         try {
@@ -137,15 +167,7 @@ public class PostNftActivity extends AppCompatActivity {
             sendOptions.setGas(BigInteger.valueOf(100000000));
             sendOptions.setFeePayer(feePayer.getAddress());
             sendOptions.setFeeDelegation(true);
-            contract.send(sendOptions,"uploadPhoto", photodata, "title", "destination", "location");
-
-
-
-
-
-
-
-
+            contract.send(sendOptions,"uploadPhoto", photodata, titled, locationed,descriptiond);
 
 
         } catch (IOException | TransactionException | ClassNotFoundException | NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
