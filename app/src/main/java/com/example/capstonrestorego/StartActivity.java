@@ -31,8 +31,8 @@ public class StartActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(StartActivity.this, com.example.capstonproto.LoginActivity.class);
-//                startActivity(intent);
+                Intent intent = new Intent(StartActivity.this, com.example.capstonrestorego.LoginActivity.class);
+                startActivity(intent);
             }
         });
 

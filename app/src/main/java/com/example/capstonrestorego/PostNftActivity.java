@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.capstonrestorego.Model.Json;
 import com.example.capstonrestorego.Model.Post;
+import com.example.capstonrestorego.Model.User;
 import com.klaytn.caver.Caver;
 import com.klaytn.caver.contract.Contract;
 import com.klaytn.caver.contract.SendOptions;
@@ -168,6 +169,24 @@ public class PostNftActivity extends AppCompatActivity {
             sendOptions.setFeePayer(feePayer.getAddress());
             sendOptions.setFeeDelegation(true);
             contract.send(sendOptions,"uploadPhoto", photodata, titled, locationed,descriptiond);
+
+
+            //caver extensionver..
+            Intent intent1=getIntent();
+            User userinfo= (User)intent1.getSerializableExtra("userinfo");
+
+            String accessKey = "KASKD9KL8U3ZZ952PD63RK4V";
+            String secretAccessKey ="Tf4mRN76-gBsqDkUueywDZuQmJPZ-qdjvjMDD2Bj";
+            CaverExtKAS caver1 = new CaverExtKAS(1001, accessKey, secretAccessKey);
+
+            String contractAddress1 = "0xb67a16850c8495033e906c7dfd88d6d363db0905";
+            String executor = userinfo.getAddress();
+            Contract sampleContract = new Contract(caver1, abijson.getABIjson(), contractAddress1);
+
+            SendOptions sendOptions1 = new SendOptions(executor, BigInteger.valueOf(50000000));
+            sampleContract.send(sendOptions1, "uploadPhoto", photodata, "value","value","value");
+
+
 
 
         } catch (IOException | TransactionException | ClassNotFoundException | NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {

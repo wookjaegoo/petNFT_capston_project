@@ -13,6 +13,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import com.example.capstonrestorego.Model.User;
+
 import java.util.List;
 
 import xyz.groundx.caver_ext_kas.CaverExtKAS;
@@ -83,11 +85,16 @@ public class LoginActivity extends AppCompatActivity {
         //저걸 두번 가공해야함 get(0)부터 마지막 인덱스 까지 반복문 돌리면된다.
         for(int i=0; i<caver.kas.wallet.getAccountList().getItems().size()-1; i++)
         {
-            String Tpvkey=account.get(i).getKeyId().substring(account.get(3).getKeyId().lastIndexOf(":")).substring(1);
+            String Tpvkey=account.get(i).getKeyId().substring(account.get(3).getKeyId().lastIndexOf(":")).substring(1,67);
             if(pvKey.getText().toString().equals(Tpvkey))
             {
 
+                User Cuser=new User();
+                Cuser.setAddress(account.get(i).getAddress());
+                Cuser.setPVkey(Tpvkey);
+
                 Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                intent.putExtra("userinfo",Cuser);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
 

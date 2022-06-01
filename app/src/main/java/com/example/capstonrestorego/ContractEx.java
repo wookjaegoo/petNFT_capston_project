@@ -61,6 +61,19 @@ public class ContractEx {
 
             TransactionReceipt.TransactionReceiptData receipt = contract.send(sendOptions, "uploadPhoto", photodata, "sdf", "destination", "location");
 
+            String accessKey = "KASKD9KL8U3ZZ952PD63RK4V";
+            String secretAccessKey ="Tf4mRN76-gBsqDkUueywDZuQmJPZ-qdjvjMDD2Bj";
+
+            CaverExtKAS caver1 = new CaverExtKAS(1001, accessKey, secretAccessKey);
+
+            String contractAddress1 = "0xb67a16850c8495033e906c7dfd88d6d363db0905";
+            String executor = "0x{address}";
+            Contract sampleContract = new Contract(caver1, abijon.getABIjson(), contractAddress1);
+
+            SendOptions sendOptions1 = new SendOptions(executor, BigInteger.valueOf(5000000));
+            sampleContract.send(sendOptions1, "uploadPhoto", photodata, "value","value","value");
+
+
 
         } catch (IOException | TransactionException | ClassNotFoundException | NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
             // 예외 처리
@@ -160,21 +173,23 @@ public class ContractEx {
 
     {
 
-//        CaverExtKAS caver = new CaverExtKAS();
-//
-//        String accessKeyId="KASKD9KL8U3ZZ952PD63RK4V";
-//        String secretAccessKey="Tf4mRN76-gBsqDkUueywDZuQmJPZ-qdjvjMDD2Bj";
-//        caver.initKASAPI(1001, accessKeyId, secretAccessKey);
-//        List<Account> account = caver.kas.wallet.getAccountList().getItems();
-//        //저걸 두번 가공해야함 get(0)부터 마지막 인덱스 까지 반복문 돌리면된다.
-//        for(int i=0; i<caver.kas.wallet.getAccountList().getItems().size()-1; i++)
-//        {
+        CaverExtKAS caver = new CaverExtKAS();
+
+        String accessKeyId="KASKD9KL8U3ZZ952PD63RK4V";
+        String secretAccessKey="Tf4mRN76-gBsqDkUueywDZuQmJPZ-qdjvjMDD2Bj";
+        caver.initKASAPI(1001, accessKeyId, secretAccessKey);
+        List<Account> account = caver.kas.wallet.getAccountList().getItems();
+        //저걸 두번 가공해야함 get(0)부터 마지막 인덱스 까지 반복문 돌리면된다.
+        for(int i=0; i<caver.kas.wallet.getAccountList().getItems().size()-1; i++)
+        {
 //            String pvkey=account.get(i).getKeyId().substring(account.get(3).getKeyId().lastIndexOf(":")).substring(1);
+//            String pvkey1=account.get(i).getKeyId().substring(account.get(3).getKeyId().lastIndexOf(":")).substring(1,67);
 //            System.out.println(pvkey);
-//
-//        }
-//        System.out.println(account.get(0).getAddress());
-        signTransact();
+//            System.out.println(pvkey1);
+            System.out.println(account.get(i));
+
+
+        }
 
 
 
