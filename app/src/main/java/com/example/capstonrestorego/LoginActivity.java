@@ -103,9 +103,12 @@ public class LoginActivity extends AppCompatActivity {
                 break;
 
             }
+
+            else if(i==caver.kas.wallet.getAccountList().getItems().size()-1)
+                Toast.makeText(LoginActivity.this, "없는계정입니다!", Toast.LENGTH_SHORT).show();
+
         }
 
-        Toast.makeText(LoginActivity.this, "없는계정입니다!", Toast.LENGTH_SHORT).show();
 
 
 

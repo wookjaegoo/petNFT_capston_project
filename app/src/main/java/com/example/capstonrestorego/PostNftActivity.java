@@ -161,14 +161,14 @@ public class PostNftActivity extends AppCompatActivity {
 
 
         try {
-            Contract contract=caver.contract.create(abijson.getABIjson(),"0xb67a16850c8495033e906c7dfd88d6d363db0905");
-            //contract adress가 deploy된 klaystagram임 klaytn scope에서 긁어온거 deploy된 이 주소에서 function 가져온거지
-            SendOptions sendOptions = new SendOptions();
-            sendOptions.setFrom(feePayer.getAddress());
-            sendOptions.setGas(BigInteger.valueOf(100000000));
-            sendOptions.setFeePayer(feePayer.getAddress());
-            sendOptions.setFeeDelegation(true);
-            contract.send(sendOptions,"uploadPhoto", photodata, titled, locationed,descriptiond);
+//            Contract contract=caver.contract.create(abijson.getABIjson(),"0xb67a16850c8495033e906c7dfd88d6d363db0905");
+//            //contract adress가 deploy된 klaystagram임 klaytn scope에서 긁어온거 deploy된 이 주소에서 function 가져온거지
+//            SendOptions sendOptions = new SendOptions();
+//            sendOptions.setFrom(feePayer.getAddress());
+//            sendOptions.setGas(BigInteger.valueOf(100000000));
+//            sendOptions.setFeePayer(feePayer.getAddress());
+//            sendOptions.setFeeDelegation(true);
+//            contract.send(sendOptions,"uploadPhoto", photodata, titled, locationed,descriptiond);
 
 
             //caver extensionver..
@@ -184,7 +184,7 @@ public class PostNftActivity extends AppCompatActivity {
             Contract sampleContract = new Contract(caver1, abijson.getABIjson(), contractAddress1);
 
             SendOptions sendOptions1 = new SendOptions(executor, BigInteger.valueOf(50000000));
-            sampleContract.send(sendOptions1, "uploadPhoto", photodata, "value","value","value");
+            sampleContract.send(sendOptions1, "uploadPhoto", photodata, titled,locationed,descriptiond);
 
 
 
