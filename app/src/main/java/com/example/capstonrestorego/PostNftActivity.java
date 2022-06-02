@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,7 +39,8 @@ import xyz.groundx.caver_ext_kas.CaverExtKAS;
 public class PostNftActivity extends AppCompatActivity {
 
 
-    TextView post,title,location,description ;
+    ImageView image_added;
+    TextView post,price,information1,information2 ;
     Json abijson= new Json();
     static String photodata=null;
 
@@ -53,9 +55,11 @@ public class PostNftActivity extends AppCompatActivity {
         if (android.os.Build.VERSION.SDK_INT > 9) { StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build(); StrictMode.setThreadPolicy(policy); }
 
         post = findViewById(R.id.post);
-        title= findViewById(R.id.title);
-        location=findViewById(R.id.location);
-        description=findViewById(R.id.description);
+        price= findViewById(R.id.price);
+        information1=findViewById(R.id.information1);
+        information2=findViewById(R.id.information2);
+        image_added=findViewById(R.id.image_added);
+
 
 
 
@@ -90,6 +94,7 @@ public class PostNftActivity extends AppCompatActivity {
                                 Bitmap bitmap2 = BitmapFactory.decodeByteArray( byteArray, 0, byteArray.length );
                                 data.putExtra("image", byteArray);
                                 photodata=byteArrayToHex(byteArray);
+                                image_added.setImageBitmap(bitmap);
 
 
                             } catch (IOException ie) {
@@ -146,15 +151,15 @@ public class PostNftActivity extends AppCompatActivity {
         SingleKeyring feePayer = caver.wallet.keyring.create(myAddress, myPVkey);
         caver.wallet.add(feePayer);
 
-        String titled=title.getText().toString();
-        String locationed=location.getText().toString();
-        String descriptiond=description.getText().toString();
-        if(titled.equals(null))
-            titled="";
-        if(locationed.equals(null))
-            locationed="";
-        if(descriptiond.equals(null))
-            descriptiond="";
+        String valued=price.getText().toString();
+        String informationn1=information1.getText().toString();
+        String informationn2=information2.getText().toString();
+        if(valued.equals(null))
+            valued="";
+        if(informationn1.equals(null))
+            informationn1="";
+        if(informationn2.equals(null))
+            informationn2="";
 
 
 
@@ -183,7 +188,7 @@ public class PostNftActivity extends AppCompatActivity {
             Contract sampleContract = new Contract(caver1, abijson.getABIjson(), contractAddress1);
 
             SendOptions sendOptions1 = new SendOptions(executor, BigInteger.valueOf(50000000));
-            sampleContract.send(sendOptions1, "uploadPhoto", photodata, titled,locationed,descriptiond);
+            sampleContract.send(sendOptions1, "uploadPhoto", photodata, valued,informationn1,informationn2);
 
 
 

@@ -35,12 +35,14 @@ import xyz.groundx.caver_ext_kas.kas.kip7.KIP7;
 public class PostnftAdapter extends RecyclerView.Adapter<PostnftAdapter.ViewHolder> {
     public Context mContext;
     private List<Post> mPost;
+    public String Caddress;
     Json abijson= new Json();
 
 
-    public PostnftAdapter(Context mContext, List<Post> mPost) {
+    public PostnftAdapter(Context mContext, List<Post> mPost,String Caddress) {
         this.mContext = mContext;
         this.mPost = mPost;
+        this.Caddress=Caddress;
 
     }
 
@@ -59,34 +61,35 @@ public class PostnftAdapter extends RecyclerView.Adapter<PostnftAdapter.ViewHold
         Glide.with(mContext).asBitmap().load(post.getPhoto()).into(holder.post_image);
         holder.username.setText(post.getUsername());
 
-        if(post.getDescription().equals(""))
+
+        if(post.getInformation2().equals(""))
         {
             holder.description.setVisibility(View.GONE);
         }
         else
         {
             holder.description.setVisibility(View.VISIBLE);
-            holder.description.setText(post.getDescription());
+            holder.description.setText(post.getInformation2());
         }
 
-        if(post.getLocation().equals(""))
+        if(post.getInformation1().equals(""))
         {
             holder.location.setVisibility(View.GONE);
         }
         else
         {
             holder.location.setVisibility(View.VISIBLE);
-            holder.location.setText(post.getLocation());
+            holder.location.setText(post.getInformation1());
         }
 
-        if(post.getTitle().equals(""))
+        if(post.getPrice().equals(""))
         {
             holder.title.setVisibility(View.GONE);
         }
         else
         {
-            holder.title.setVisibility(View.VISIBLE);
-            holder.title.setText(post.getTitle());
+            holder.price.setVisibility(View.VISIBLE);
+            holder.price.setText(post.getPrice());
         }
 
         holder.buy.setOnClickListener(new View.OnClickListener() {
@@ -100,16 +103,25 @@ public class PostnftAdapter extends RecyclerView.Adapter<PostnftAdapter.ViewHold
 
                         String contractAddress = "0xb67a16850c8495033e906c7dfd88d6d363db0905";
 
-                        String executor =holder.username.getText().toString();
+                        //Caddress means 어플 접속자
 
-                       String hexBalance =caver.rpc.getKlay().getBalance(executor).send().getResult();
-                       int klay=Integer.parseInt(hexBalance.substring(2))/10^18;
-                       int nftPrice=Integer.parseInt(holder.price.getText().toString());
+
+                       String hexBalance =caver.rpc.getKlay().getBalance(Caddress).send().getResult();
+                        String klay1=hexBalance.substring(2);
+
+                        BigInteger bigInteger=new BigInteger(klay1,16);
+                        BigInteger bigInteger1=new BigInteger("1000000000000000000");
+                        bigInteger.divide(bigInteger1).toString();
+                        String Sklay=bigInteger.divide(bigInteger1).toString();
+                        Double klay=Double.parseDouble(Sklay);
+
+
+                       Double nftPrice=Double.parseDouble(holder.price.getText().toString());
                        if(klay>nftPrice)
                        {
                            Contract sampleContract = new Contract(caver, abijson.getABIjson(), contractAddress);
-                           SendOptions sendOptions1 = new SendOptions(executor, BigInteger.valueOf(50000000));
-                           sampleContract.send(sendOptions1, "transferOwnership",executor);
+                           SendOptions sendOptions1 = new SendOptions(Caddress, BigInteger.valueOf(50000000));
+                           sampleContract.send(sendOptions1, "transferOwnership",Caddress);
                        }
 
 //                    잔고조회 이때 로그인 객체에서 받은 주소로 nft살만한 잔고있으면 결제 ㄱ

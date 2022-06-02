@@ -50,36 +50,47 @@
         android:padding="8dp"
         android:orientation="vertical">
         <ImageView
+
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:scaleType="centerInside"
-            android:layout_gravity="center"
-            android:src="@mipmap/ic_launcher"
-            android:id="@+id/image_added"/>
+            android:id="@+id/image_added"
+            />
+
+
+        <ImageView
+            android:id="@+id/klay_logo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/klaysize" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="민팅이 진행될 사진입니다. 원본 사진과 비교해보세요"
+            android:textSize="18dp"/>
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Title"
+            android:hint="input only number klay value"
             android:maxLines="5"
             android:layout_marginTop="15dp"
-            android:id="@+id/title"/>
+            android:id="@+id/price"/>
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Location"
+            android:hint="information1"
             android:maxLines="5"
             android:layout_marginTop="15dp"
-            android:id="@+id/location"/>
+            android:id="@+id/information1"/>
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Descriptions"
+            android:hint="information2"
             android:maxLines="5"
             android:layout_marginTop="15dp"
-            android:id="@+id/description"/>
+            android:id="@+id/information2"/>
 
 
     </LinearLayout>

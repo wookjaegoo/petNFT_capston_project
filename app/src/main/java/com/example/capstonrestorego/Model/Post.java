@@ -7,23 +7,22 @@ public class Post {
 
     private String tokenid;
     private Bitmap photo;
-    private String title;
-    private String location;
-    private String description;
+    private String price;
+    private String information1;
+    private String information2;
     private String username;
 
 
-    public Post()
-    {
+    public Post() {
     }
 
-    public Post(String tokenid, Bitmap photo, String title, String location, String description) {
+    public Post(String tokenid, Bitmap photo, String price, String information1, String information2, String username) {
         this.tokenid = tokenid;
         this.photo = photo;
-        this.title = title;
-        this.location = location;
-        this.description = description;
-        this.username= username;
+        this.price = price;
+        this.information1 = information1;
+        this.information2 = information2;
+        this.username = username;
     }
 
     public String getTokenid() {
@@ -42,31 +41,35 @@ public class Post {
         this.photo = photo;
     }
 
-    public String getTitle() {
-        return title;
+    public String getPrice() {
+        return price;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setPrice(String price) {
+        this.price = price;
     }
 
-    public String getLocation() {
-        return location;
+    public String getInformation1() {
+        return information1;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setInformation1(String information1) {
+        this.information1 = information1;
     }
 
-    public String getDescription() {
-        return description;
+    public String getInformation2() {
+        return information2;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setInformation2(String information2) {
+        this.information2 = information2;
     }
 
-    public String getUsername(){ return username; }
+    public String getUsername() {
+        return username;
+    }
 
-    public void setUsername(String username) {this.username=username;}
+    public void setUsername(String username) {
+        this.username = username;
+    }
 }
