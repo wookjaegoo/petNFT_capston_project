@@ -1,6 +1,7 @@
 package com.example.capstonrestorego;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,15 +25,33 @@ public class MainActivity extends AppCompatActivity {
         NavigationBarView navigationBarView= findViewById(R.id.bottom_navigation);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment()).commit();
 
-
         Intent intent1=getIntent();
         User userinfo= (User)intent1.getSerializableExtra("userinfo");
+
+
+        Fragment homefragment;
+        homefragment= new HomeFragment();
+
+        if(intent1!=null)
+        {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,homefragment).commit();
+            Bundle bundle=new Bundle();
+            bundle.putString("userinfo", userinfo.getAddress());
+            homefragment.setArguments(bundle);
+        }
+        else
+        {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment()).commit();
+        }
+
+
 
         navigationBarView.setOnItemSelectedListener(item -> {
 
             switch (item.getItemId()){
                 case R.id.nav_home:
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment()).commit();
+
                     return true;
                 case R.id.nav_mint:
                     selectFragment = null;

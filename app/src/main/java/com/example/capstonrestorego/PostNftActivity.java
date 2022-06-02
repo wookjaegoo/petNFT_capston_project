@@ -53,7 +53,6 @@ public class PostNftActivity extends AppCompatActivity {
         if (android.os.Build.VERSION.SDK_INT > 9) { StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build(); StrictMode.setThreadPolicy(policy); }
 
         post = findViewById(R.id.post);
-
         title= findViewById(R.id.title);
         location=findViewById(R.id.location);
         description=findViewById(R.id.description);

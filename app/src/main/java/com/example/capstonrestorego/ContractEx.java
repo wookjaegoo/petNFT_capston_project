@@ -11,10 +11,12 @@ import com.klaytn.caver.contract.Contract;
 import com.klaytn.caver.contract.SendOptions;
 import com.klaytn.caver.methods.request.KlayLogFilter;
 import com.klaytn.caver.methods.response.KlayLogs;
+import com.klaytn.caver.methods.response.Quantity;
 import com.klaytn.caver.methods.response.TransactionReceipt;
 import com.klaytn.caver.wallet.keyring.SingleKeyring;
 
 import org.web3j.protocol.core.DefaultBlockParameterName;
+import org.web3j.protocol.core.Request;
 import org.web3j.protocol.exceptions.TransactionException;
 
 import java.io.ByteArrayOutputStream;
@@ -189,8 +191,11 @@ public class ContractEx {
             System.out.println(account.get(i));
 
 
-        }
 
+        }
+        caver.rpc.klay.getBalance("0x55772B1eBADf827068E4C68B6986d6C9Dadef072");
+
+        System.out.println(caver.rpc.klay.getBalance("0x55772B1eBADf827068E4C68B6986d6C9Dadef072").toString());
 
 
 

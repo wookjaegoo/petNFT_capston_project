@@ -40,10 +40,11 @@ public class HomeFragment extends Fragment {
     private RecyclerView recyclerView;
     private PostnftAdapter postAdapter;
     private List<Post> postLists;
-//    public static Post post =new Post();
     ProgressBar progressBar;
-
     Json abijson= new Json();
+    Bundle bundle=getArguments();
+
+
 
 
     @Override
@@ -67,7 +68,6 @@ public class HomeFragment extends Fragment {
 
         recyclerView.setAdapter(postAdapter);
         TransactionLog();
-
         return view;
     }
 
@@ -110,7 +110,6 @@ public class HomeFragment extends Fragment {
 
                 //photodata 정보
                 byte[] photobyte=((DynamicBytes)((ArrayList)output).get(2)).getValue();
-
                 post.setUsername(output.get(1).getValue().toString());
                 post.setTitle(output.get(3).getValue().toString());
                 post.setLocation(output.get(4).getValue().toString());
