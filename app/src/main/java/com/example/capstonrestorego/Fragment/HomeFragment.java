@@ -19,6 +19,7 @@ import com.example.capstonrestorego.Model.Json;
 import com.example.capstonrestorego.Model.Post;
 import com.example.capstonrestorego.R;
 import com.klaytn.caver.Caver;
+import com.klaytn.caver.abi.datatypes.DynamicArray;
 import com.klaytn.caver.abi.datatypes.DynamicBytes;
 import com.klaytn.caver.abi.datatypes.Type;
 import com.klaytn.caver.contract.Contract;
@@ -117,8 +118,11 @@ public class HomeFragment extends Fragment {
 
                 //photodata 정보
                 byte[] photobyte=((DynamicBytes)((ArrayList)output).get(2)).getValue();
+                List OwnerHistoy=((DynamicArray)((ArrayList)output).get(1)).getValue();
+
+
                 post.setTokenid(output.get(0).getValue().toString());
-                post.setUsername(output.get(1).getValue().toString());
+                post.setUsername(OwnerHistoy.get(OwnerHistoy.size()-1).toString());
                 post.setPrice(output.get(3).getValue().toString());
                 post.setInformation1(output.get(4).getValue().toString());
                 post.setInformation2(output.get(5).getValue().toString());

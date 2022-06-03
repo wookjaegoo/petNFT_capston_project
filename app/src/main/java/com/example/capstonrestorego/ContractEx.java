@@ -6,15 +6,21 @@ import android.widget.EditText;
 import com.example.capstonrestorego.Model.Json;
 import com.example.capstonrestorego.Model.Post;
 import com.klaytn.caver.Caver;
+import com.klaytn.caver.abi.datatypes.DynamicArray;
+import com.klaytn.caver.abi.datatypes.DynamicBytes;
 import com.klaytn.caver.abi.datatypes.Type;
 import com.klaytn.caver.contract.Contract;
 import com.klaytn.caver.contract.SendOptions;
 import com.klaytn.caver.methods.request.KlayLogFilter;
+import com.klaytn.caver.methods.response.Bytes32;
 import com.klaytn.caver.methods.response.KlayLogs;
 import com.klaytn.caver.methods.response.Quantity;
 import com.klaytn.caver.methods.response.TransactionReceipt;
+import com.klaytn.caver.transaction.TxPropertyBuilder;
+import com.klaytn.caver.transaction.type.ValueTransfer;
 import com.klaytn.caver.wallet.keyring.SingleKeyring;
 
+import org.bouncycastle.util.encoders.Hex;
 import org.web3j.protocol.core.DefaultBlockParameterName;
 import org.web3j.protocol.core.Request;
 import org.web3j.protocol.exceptions.TransactionException;
@@ -23,12 +29,16 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 
 import xyz.groundx.caver_ext_kas.CaverExtKAS;
 import xyz.groundx.caver_ext_kas.rest_client.io.swagger.client.ApiException;
 import xyz.groundx.caver_ext_kas.rest_client.io.swagger.client.api.wallet.model.Account;
+import xyz.groundx.caver_ext_kas.rest_client.io.swagger.client.api.wallet.model.TransactionResult;
+import xyz.groundx.caver_ext_kas.rest_client.io.swagger.client.api.wallet.model.ValueTransferTransactionRequest;
 
 public class ContractEx {
 
@@ -138,11 +148,19 @@ public class ContractEx {
 
             List<Type> output=contract.call("getPhoto",log.getTopics().get(3));
 
+
             for(int i=0; i<output.size();i++)
             {
                 System.out.println(
                         output.get(i).getValue());
             }
+
+            byte[] photobyte=((DynamicBytes)((ArrayList)output).get(2)).getValue();
+            List man=((DynamicArray)((ArrayList)output).get(1)).getValue();
+            //마지막 인덱스 가리켜야함
+
+
+            System.out.println(man.get(man.size()-1));
 
 
         }
@@ -167,6 +185,28 @@ public class ContractEx {
 
         }
 
+        public static void approvetest()
+        {
+            try{
+                String accessKey = "KASKD9KL8U3ZZ952PD63RK4V";
+                String secretAccessKey ="Tf4mRN76-gBsqDkUueywDZuQmJPZ-qdjvjMDD2Bj";
+                CaverExtKAS caver = new CaverExtKAS(1001, accessKey, secretAccessKey);
+                String contractAddress = "0xb67a16850c8495033e906c7dfd88d6d363db0905";
+                SendOptions sendOptions1 = new SendOptions("0x55772B1eBADf827068E4C68B6986d6C9Dadef072", BigInteger.valueOf(50000000));
+                Contract sampleContract = new Contract(caver, abijon.getABIjson(), contractAddress);
+                sampleContract.send(sendOptions1,"approve","0xe2f5b85d20A36832731B815aF5Ad33e29767A7b1",250);
+                // owner가 아닌 주소에 대해서 tokend id 랑 같이 먼저 approve 해준뒤에 밑에 트랜잭션 일어나게해야함
+                //payer는 nft 소유자고 approve 랑 transferownership의 파라미터는 그 nft를 받을 사람임 ..
+                sampleContract.send(sendOptions1,"transferOwnership",250,"0xe2f5b85d20A36832731B815aF5Ad33e29767A7b1");
+
+            }
+            catch (IOException| TransactionException  | ClassNotFoundException | NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e)
+            {
+
+            }
+
+        }
+
 
 
 
@@ -176,30 +216,38 @@ public class ContractEx {
     {
 
         CaverExtKAS caver = new CaverExtKAS();
-
+//
         String accessKeyId="KASKD9KL8U3ZZ952PD63RK4V";
         String secretAccessKey="Tf4mRN76-gBsqDkUueywDZuQmJPZ-qdjvjMDD2Bj";
         caver.initKASAPI(1001, accessKeyId, secretAccessKey);
-        List<Account> account = caver.kas.wallet.getAccountList().getItems();
-        //저걸 두번 가공해야함 get(0)부터 마지막 인덱스 까지 반복문 돌리면된다.
-        for(int i=0; i<caver.kas.wallet.getAccountList().getItems().size()-1; i++)
-        {
-//            String pvkey=account.get(i).getKeyId().substring(account.get(3).getKeyId().lastIndexOf(":")).substring(1);
-//            String pvkey1=account.get(i).getKeyId().substring(account.get(3).getKeyId().lastIndexOf(":")).substring(1,67);
-//            System.out.println(pvkey);
-//            System.out.println(pvkey1);
-            System.out.println(account.get(i));
+//        List<Account> account = caver.kas.wallet.getAccountList().getItems();
+//        //저걸 두번 가공해야함 get(0)부터 마지막 인덱스 까지 반복문 돌리면된다.
+//        for(int i=0; i<caver.kas.wallet.getAccountList().getItems().size()-1; i++)
+//        {
+////            String pvkey=account.get(i).getKeyId().substring(account.get(3).getKeyId().lastIndexOf(":")).substring(1);
+////            String pvkey1=account.get(i).getKeyId().substring(account.get(3).getKeyId().lastIndexOf(":")).substring(1,67);
+////            System.out.println(pvkey);
+////            System.out.println(pvkey1);
+//            System.out.println(account.get(i));
+//
+//
+//
+//        }
+
+        ValueTransferTransactionRequest request = new ValueTransferTransactionRequest();
+        request.setFrom("0xe2f5b85d20A36832731B815aF5Ad33e29767A7b1");
+        request.setTo("0x55772B1eBADf827068E4C68B6986d6C9Dadef072");
+        request.setValue("0xa688906bd8b00000");
+        request.setSubmit(true);
+
+        TransactionResult transactionResult = caver.kas.wallet.requestValueTransfer(request);
+        System.out.println(transactionResult);
 
 
+        Long price=12*1000000000000000000L;
+        Long.toHexString(price);
 
-        }
-        caver.rpc.klay.getBalance("0x55772B1eBADf827068E4C68B6986d6C9Dadef072");
-
-        System.out.println(caver.rpc.klay.getBalance("0x55772B1eBADf827068E4C68B6986d6C9Dadef072").toString());
-
-
-
-
+        System.out.println(Long.toHexString(price));
 
 
     }

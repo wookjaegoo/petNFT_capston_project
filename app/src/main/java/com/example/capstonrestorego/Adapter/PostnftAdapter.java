@@ -44,6 +44,9 @@ import java.util.Locale;
 
 import xyz.groundx.caver_ext_kas.CaverExtKAS;
 import xyz.groundx.caver_ext_kas.kas.kip7.KIP7;
+import xyz.groundx.caver_ext_kas.rest_client.io.swagger.client.ApiException;
+import xyz.groundx.caver_ext_kas.rest_client.io.swagger.client.api.wallet.model.TransactionResult;
+import xyz.groundx.caver_ext_kas.rest_client.io.swagger.client.api.wallet.model.ValueTransferTransactionRequest;
 
 public class PostnftAdapter extends RecyclerView.Adapter<PostnftAdapter.ViewHolder> {
     public Context mContext;
@@ -138,19 +141,36 @@ public class PostnftAdapter extends RecyclerView.Adapter<PostnftAdapter.ViewHold
                         BigInteger bigInteger=new BigInteger(klay1,16);
                         BigInteger bigInteger1=new BigInteger("1000000000000000000");
                         bigInteger.divide(bigInteger1).toString();
+
                         String Sklay=bigInteger.divide(bigInteger1).toString();
                         Double klay=Double.parseDouble(Sklay);
 
 
-                       Double nftPrice=Double.parseDouble(holder.price.getText().toString());
+
+                        Double nftPrice=Double.parseDouble(holder.price.getText().toString());
                        int tokenid=Integer.parseInt(holder.tokenid.getText().toString());
-                       if(klay>nftPrice &&!holder.username.getText().toString().substring(1,43).equals(Caddress.toLowerCase(Locale.ROOT)))
+
+                       if(klay>nftPrice &&!holder.username.getText().toString().equals(Caddress.toLowerCase(Locale.ROOT)))
                        {
+
+                           //판매자 한테 선입금
+                           Long price= Long.parseLong(holder.price.getText().toString())*1000000000000000000L;
+                           String value=Long.toHexString(price);
+                           ValueTransferTransactionRequest request = new ValueTransferTransactionRequest();
+                           request.setFrom(Caddress);
+                           request.setTo(holder.username.getText().toString());
+                           request.setValue(value);
+                           request.setSubmit(true);
+                           caver.kas.wallet.requestValueTransfer(request);
+
+                           //nft 양도 거래 진행
                            Contract sampleContract = new Contract(caver, abijson.getABIjson(), contractAddress);
-                           SendOptions sendOptions1 = new SendOptions(Caddress, BigInteger.valueOf(50000000));
-                           sampleContract.send(sendOptions1, "transferFrom",holder.username.getText().toString().substring(1,43),Caddress.toLowerCase(Locale.ROOT),tokenid);
+                           SendOptions sendOptions1 = new SendOptions(holder.username.getText().toString(), BigInteger.valueOf(50000000));
+                           sampleContract.send(sendOptions1,"approve",Caddress,tokenid);
+                           sampleContract.send(sendOptions1,"transferOwnership",tokenid,Caddress);
+
                        }
-                       else if(holder.username.getText().toString().substring(1,43).equals(Caddress.toLowerCase(Locale.ROOT)))
+                       else if(holder.username.getText().toString().equals(Caddress.toLowerCase(Locale.ROOT)))
                        {
 
                            Toast.makeText(mContext, "본인의 nft 입니다!", Toast.LENGTH_SHORT).show();
@@ -164,7 +184,7 @@ public class PostnftAdapter extends RecyclerView.Adapter<PostnftAdapter.ViewHold
 
 //                    잔고조회 이때 로그인 객체에서 받은 주소로 nft살만한 잔고있으면 결제 ㄱ
                     }
-                    catch (IOException | TransactionException | ClassNotFoundException | NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e)
+                    catch (IOException | ApiException | TransactionException | ClassNotFoundException | NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e)
                     {
 
                     }
