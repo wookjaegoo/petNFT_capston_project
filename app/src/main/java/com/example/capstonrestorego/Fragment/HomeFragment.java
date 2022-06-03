@@ -117,6 +117,7 @@ public class HomeFragment extends Fragment {
 
                 //photodata 정보
                 byte[] photobyte=((DynamicBytes)((ArrayList)output).get(2)).getValue();
+                post.setTokenid(output.get(0).getValue().toString());
                 post.setUsername(output.get(1).getValue().toString());
                 post.setPrice(output.get(3).getValue().toString());
                 post.setInformation1(output.get(4).getValue().toString());
