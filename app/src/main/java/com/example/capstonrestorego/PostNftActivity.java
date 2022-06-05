@@ -116,9 +116,6 @@ public class PostNftActivity extends AppCompatActivity {
                 makeNft("0x"+photodata);
                 Toast.makeText(PostNftActivity.this, "민팅을 진행중입니다..", Toast.LENGTH_SHORT).show();
                 startActivity (new Intent( PostNftActivity.this, MainActivity.class));
-
-
-
             }
         });
 

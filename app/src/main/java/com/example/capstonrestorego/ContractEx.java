@@ -234,20 +234,33 @@ public class ContractEx {
 //
 //        }
 
+//        ValueTransferTransactionRequest request = new ValueTransferTransactionRequest();
+//        request.setFrom("0xe2f5b85d20A36832731B815aF5Ad33e29767A7b1");
+//        request.setTo("0x55772B1eBADf827068E4C68B6986d6C9Dadef072");
+//        request.setValue("0xa688906bd8b00000");
+//        request.setSubmit(true);
+//
+//        TransactionResult transactionResult = caver.kas.wallet.requestValueTransfer(request);
+//        System.out.println(transactionResult);
+//
+//
+//        Long price=12*1000000000000000000L;
+//        Long.toHexString(price);
+//
+//        System.out.println(Long.toHexString(price));
+
+        BigInteger defaulp=new BigInteger("1000000000000000000");
+        BigInteger price1=new BigInteger("12");
+        System.out.println(price1.multiply(defaulp).toString(16));
+
+        Long price= Long.parseLong("12")*1000000000000000000L;
+        String value=Long.toHexString(price);
         ValueTransferTransactionRequest request = new ValueTransferTransactionRequest();
-        request.setFrom("0xe2f5b85d20A36832731B815aF5Ad33e29767A7b1");
-        request.setTo("0x55772B1eBADf827068E4C68B6986d6C9Dadef072");
-        request.setValue("0xa688906bd8b00000");
+        request.setFrom("0x264F9A047364567DCBE9998441a63dcFF43Dc463");
+        request.setTo("0xe2f5b85d20A36832731B815aF5Ad33e29767A7b1");
+        request.setValue("0x"+value);
         request.setSubmit(true);
-
-        TransactionResult transactionResult = caver.kas.wallet.requestValueTransfer(request);
-        System.out.println(transactionResult);
-
-
-        Long price=12*1000000000000000000L;
-        Long.toHexString(price);
-
-        System.out.println(Long.toHexString(price));
+        //TransactionResult transactionResult =caver.kas.wallet.requestValueTransfer(request);
 
 
     }

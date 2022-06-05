@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
     Fragment selectFragment = null;
     static  Bundle bundle=new Bundle();
     static Intent intent1=new Intent();
+    static User userinfo;
 
 
     @Override
@@ -27,14 +28,13 @@ public class MainActivity extends AppCompatActivity {
         NavigationBarView navigationBarView= findViewById(R.id.bottom_navigation);
 
         intent1=getIntent();
-        User userinfo= (User)intent1.getSerializableExtra("userinfo");
+        userinfo= (User)intent1.getSerializableExtra("userinfo");
 
         Fragment homefragment;
         homefragment= new HomeFragment();
 
         if(intent1!=null)
         {
-
             bundle.putString("userinfo", userinfo.getAddress());
             homefragment.setArguments(bundle);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,homefragment).commit();
@@ -54,11 +54,13 @@ public class MainActivity extends AppCompatActivity {
                     Fragment homefragment1;
                     homefragment1= new HomeFragment();
                     homefragment1.setArguments(bundle);
+
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,homefragment1).commit();
 
                     return true;
                 case R.id.nav_mint:
                     selectFragment = null;
+
                     Intent intent = new Intent(MainActivity.this,PostNftActivity.class);
                     intent.putExtra("userinfo",userinfo);
                     startActivity(intent);

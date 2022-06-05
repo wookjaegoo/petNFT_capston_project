@@ -121,6 +121,7 @@ public class PostnftAdapter extends RecyclerView.Adapter<PostnftAdapter.ViewHold
             holder.tokenid.setText(post.getTokenid());
         }
 
+
         holder.buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -152,22 +153,27 @@ public class PostnftAdapter extends RecyclerView.Adapter<PostnftAdapter.ViewHold
 
                        if(klay>nftPrice &&!holder.username.getText().toString().equals(Caddress.toLowerCase(Locale.ROOT)))
                        {
-
                            //판매자 한테 선입금
-                           Long price= Long.parseLong(holder.price.getText().toString())*1000000000000000000L;
-                           String value=Long.toHexString(price);
+
+                           BigInteger defaulp=new BigInteger("1000000000000000000");
+                           BigInteger price1=new BigInteger(holder.price.getText().toString());
+                           String value=price1.multiply(defaulp).toString(16);
+
                            ValueTransferTransactionRequest request = new ValueTransferTransactionRequest();
                            request.setFrom(Caddress);
                            request.setTo(holder.username.getText().toString());
-                           request.setValue(value);
+                           request.setValue("0x"+value);
                            request.setSubmit(true);
                            caver.kas.wallet.requestValueTransfer(request);
+                           //long으로 값 넘기기힘듬 클레이 단위 1의자리 아니면
 
                            //nft 양도 거래 진행
                            Contract sampleContract = new Contract(caver, abijson.getABIjson(), contractAddress);
                            SendOptions sendOptions1 = new SendOptions(holder.username.getText().toString(), BigInteger.valueOf(50000000));
                            sampleContract.send(sendOptions1,"approve",Caddress,tokenid);
                            sampleContract.send(sendOptions1,"transferOwnership",tokenid,Caddress);
+
+
 
                        }
                        else if(holder.username.getText().toString().equals(Caddress.toLowerCase(Locale.ROOT)))
@@ -195,6 +201,7 @@ public class PostnftAdapter extends RecyclerView.Adapter<PostnftAdapter.ViewHold
 
 
     }
+
 
     @Override
     public int getItemCount() {
@@ -225,4 +232,7 @@ public class PostnftAdapter extends RecyclerView.Adapter<PostnftAdapter.ViewHold
 
 
 
-    }
+
+
+
+}
