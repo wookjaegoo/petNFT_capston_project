@@ -125,6 +125,7 @@ public class HomeFragment extends Fragment {
             //블록 로그 참조
 
             Contract contract=caver.contract.create(abijson.getABIjson(),realAdd);
+            //로그 참조 socket오류로 불가능함.
            // KlayLogFilter filter = new KlayLogFilter(DefaultBlockParameterName.EARLIEST, DefaultBlockParameterName.LATEST, realAdd, null);
            // KlayLogs logs = contract.getPastEvent("Transfer", filter);
 
@@ -150,7 +151,7 @@ public class HomeFragment extends Fragment {
 //            }
 
 
-            for(int tkindex=240; tkindex<270; tkindex++)
+            for(int tkindex=240; tkindex<400; tkindex++)
             {
                 Post post= new Post();
 

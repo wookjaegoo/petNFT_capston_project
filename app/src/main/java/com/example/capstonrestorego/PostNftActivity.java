@@ -75,7 +75,6 @@ public class PostNftActivity extends AppCompatActivity {
                     public void onActivityResult(ActivityResult result) {
                         if (result.getResultCode() == RESULT_OK) {
                             Intent data = result.getData();
-                            final int MAX_IMAGE_SIZE=28000;
                             int compressquality=90;
                             try {
                                 InputStream is = getContentResolver().openInputStream(data.getData());
@@ -147,7 +146,7 @@ public class PostNftActivity extends AppCompatActivity {
 
 
         String secondAdd="0x865df85ddfc3ebe3647bac58c6ccb61d2c8e7858";
-        String myAddress = "0x819660a4d803ff6235538e312d322fe6dd8af562"; //지갑 주소 전달받아야함 이건 내 클레이튼 개정꺼고 밑에 파라미터는 로그인계정으로 넣어봄
+        String myAddress = "0x819660a4d803ff6235538e312d322fe6dd8af562";
         String myPVkey="0xae77986d342aaa6f887fb0c458e82b48fed5c333b4c677e1ae9960c9e99ad9aa";
 
 
