@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.capstonrestorego.Model.Json;
 import com.example.capstonrestorego.Model.Post;
 import com.example.capstonrestorego.Model.User;
+import com.example.capstonrestorego.Model.UserInfo;
 import com.klaytn.caver.Caver;
 import com.klaytn.caver.contract.Contract;
 import com.klaytn.caver.contract.SendOptions;
@@ -44,6 +45,8 @@ public class PostNftActivity extends AppCompatActivity {
     TextView post,price,information1,information2 ;
     Json abijson= new Json();
     static String photodata=null;
+    private UserInfo userInfo;
+
 
 
 
@@ -178,8 +181,9 @@ public class PostNftActivity extends AppCompatActivity {
 
 
             //caver extensionver..
-            Intent intent1=getIntent();
-            User userinfo= (User)intent1.getSerializableExtra("userinfo");
+            userInfo=UserInfo.getInstance();
+
+
 
             String accessKey = "KASKD9KL8U3ZZ952PD63RK4V";
             String secretAccessKey ="Tf4mRN76-gBsqDkUueywDZuQmJPZ-qdjvjMDD2Bj";
@@ -187,7 +191,7 @@ public class PostNftActivity extends AppCompatActivity {
 
 
             String contractAddress1 = "0xb67a16850c8495033e906c7dfd88d6d363db0905";
-            String executor = userinfo.getAddress();
+            String executor = userInfo.getUseradd();
             Contract sampleContract = new Contract(caver1, abijson.getABIjson(),contractAddress1);
 
             SendOptions sendOptions1 = new SendOptions(executor, BigInteger.valueOf(50000000));

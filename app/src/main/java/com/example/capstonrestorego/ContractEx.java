@@ -44,6 +44,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import xyz.groundx.caver_ext_kas.CaverExtKAS;
 import xyz.groundx.caver_ext_kas.rest_client.io.swagger.client.ApiException;
 import xyz.groundx.caver_ext_kas.rest_client.io.swagger.client.api.wallet.model.Account;
+import xyz.groundx.caver_ext_kas.rest_client.io.swagger.client.api.wallet.model.Accounts;
 import xyz.groundx.caver_ext_kas.rest_client.io.swagger.client.api.wallet.model.TransactionResult;
 import xyz.groundx.caver_ext_kas.rest_client.io.swagger.client.api.wallet.model.ValueTransferTransactionRequest;
 
@@ -225,24 +226,16 @@ public class ContractEx {
     public static void main(String[] args)throws ApiException
 
     {
+        CaverExtKAS caver = new CaverExtKAS();
+
+        String accessKeyId="KASKD9KL8U3ZZ952PD63RK4V";
+        String secretAccessKey="Tf4mRN76-gBsqDkUueywDZuQmJPZ-qdjvjMDD2Bj";
+        caver.initKASAPI(1001, accessKeyId, secretAccessKey);
+        Accounts accounts= caver.kas.wallet.getAccountList();
+
+        System.out.println(accounts);
 
 
-        Caver caver = new Caver(baourl);
-
-        try{
-
-            Contract contract = caver.contract.create(abijon.getABIjson(), "0x865df85ddfc3ebe3647bac58c6ccb61d2c8e7858");
-            List<Type> output=contract.call("getPhoto",240);
-            byte[] photobyte=((DynamicBytes)((ArrayList)output).get(2)).getValue();
-
-            System.out.println(output);
-
-
-        }
-        catch (IOException | ClassNotFoundException | NoSuchMethodException | InvocationTargetException | java.lang.InstantiationException | IllegalAccessException e)
-        {
-
-        }
     }
 
 }

@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 import com.example.capstonrestorego.Model.User;
+import com.example.capstonrestorego.Model.UserInfo;
 
 import java.util.List;
 
@@ -26,6 +27,8 @@ public class LoginActivity extends AppCompatActivity {
 
     EditText pvKey;
     Button login;
+    private UserInfo userInfo;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,8 +96,12 @@ public class LoginActivity extends AppCompatActivity {
                 Cuser.setAddress(account.get(i).getAddress());
                 Cuser.setPVkey(Tpvkey);
 
+                userInfo=UserInfo.getInstance();
+                userInfo.setUseradd(Cuser.getAddress());
+
+
                 Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-                intent.putExtra("userinfo",Cuser);
+                //intent.putExtra("userinfo",Cuser);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
 

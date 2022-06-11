@@ -38,9 +38,6 @@
             android:name=".RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".WalletActivity"
-            android:exported="false" />
-        <activity
             android:name=".PostNftActivity"
             android:exported="false" />
         <activity
