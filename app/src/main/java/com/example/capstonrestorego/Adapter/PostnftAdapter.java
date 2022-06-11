@@ -147,7 +147,6 @@ public class PostnftAdapter extends RecyclerView.Adapter<PostnftAdapter.ViewHold
                         Double klay=Double.parseDouble(Sklay);
 
 
-
                         Double nftPrice=Double.parseDouble(holder.price.getText().toString());
                        int tokenid=Integer.parseInt(holder.tokenid.getText().toString());
 

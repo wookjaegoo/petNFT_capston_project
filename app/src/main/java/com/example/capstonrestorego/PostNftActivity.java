@@ -23,6 +23,7 @@ import com.klaytn.caver.Caver;
 import com.klaytn.caver.contract.Contract;
 import com.klaytn.caver.contract.SendOptions;
 import com.klaytn.caver.wallet.keyring.SingleKeyring;
+import com.squareup.okhttp.OkHttpClient;
 
 import org.web3j.protocol.exceptions.TransactionException;
 
@@ -31,7 +32,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigInteger;
-import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import xyz.groundx.caver_ext_kas.CaverExtKAS;
 
@@ -46,6 +47,7 @@ public class PostNftActivity extends AppCompatActivity {
 
 
 
+
     private ActivityResultLauncher<Intent> resultLauncher;
 
     @Override
@@ -53,6 +55,9 @@ public class PostNftActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_nft);
         if (android.os.Build.VERSION.SDK_INT > 9) { StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build(); StrictMode.setThreadPolicy(policy); }
+
+
+
 
         post = findViewById(R.id.post);
         price= findViewById(R.id.price);
@@ -141,6 +146,7 @@ public class PostNftActivity extends AppCompatActivity {
 
 
 
+        String secondAdd="0x865df85ddfc3ebe3647bac58c6ccb61d2c8e7858";
         String myAddress = "0x819660a4d803ff6235538e312d322fe6dd8af562"; //지갑 주소 전달받아야함 이건 내 클레이튼 개정꺼고 밑에 파라미터는 로그인계정으로 넣어봄
         String myPVkey="0xae77986d342aaa6f887fb0c458e82b48fed5c333b4c677e1ae9960c9e99ad9aa";
 
@@ -180,9 +186,10 @@ public class PostNftActivity extends AppCompatActivity {
             String secretAccessKey ="Tf4mRN76-gBsqDkUueywDZuQmJPZ-qdjvjMDD2Bj";
             CaverExtKAS caver1 = new CaverExtKAS(1001, accessKey, secretAccessKey);
 
+
             String contractAddress1 = "0xb67a16850c8495033e906c7dfd88d6d363db0905";
             String executor = userinfo.getAddress();
-            Contract sampleContract = new Contract(caver1, abijson.getABIjson(), contractAddress1);
+            Contract sampleContract = new Contract(caver1, abijson.getABIjson(),contractAddress1);
 
             SendOptions sendOptions1 = new SendOptions(executor, BigInteger.valueOf(50000000));
             sampleContract.send(sendOptions1, "uploadPhoto", photodata, valued,informationn1,informationn2);
