@@ -79,7 +79,7 @@
 # :computer: 제공 기능 (Service)
 
 ## 홈화면 이미지 
-<div>
+<div align="center">
 <img src="/Doc/img/login.png" alt="홈화면" width="200" height="400">
 
 <!-- 정보 등록 이미지 -->
@@ -93,7 +93,7 @@
 
 ## 정보 기입후 업로드
 
-<div>
+<div align="center">
 <img src="/Doc/img/feed.png" alt="피드확인" width="200" height="400">
 
 </div>
