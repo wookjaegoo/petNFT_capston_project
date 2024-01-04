@@ -50,7 +50,7 @@
 
 ## 프로젝트 플로우차트
 
-  ![](/Doc/img/flowchart2.png)
+  ![](/Doc/img/flowchart.png)
 
 # :wrench: 사용 기술 (Technique)
   ![](/Doc/img/tech.png)
