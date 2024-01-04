@@ -41,7 +41,7 @@
 
 ## 프로젝트 요약
 
-동물 보증서를 NFT로 발행하고 그 정보를 바탕으로 반려동물을 거래한다.
+동물 보증서를 NFT로 발행하고 그 정보를 바탕으로 반려동물을 거래할수 있게한다.
 
 메타데이터는 IPFS가 아닌 ON-CHAIN으로 모두 구현하여 기존 NFT가 발행되는 방식보다
 
@@ -97,13 +97,17 @@
 <img src="/Doc/img/feed.png" alt="피드확인" width="200" height="400">
 
 </div>
-사용자는 반려동물의 정보를 등록한다. 이때 반려동물의 사진을 등록할때는 사진이 byte배열로 변환되고
+1.사용자는 반려동물의 정보를 등록한다. 이때 반려동물의 사진을 등록할때는 사진이 byte배열로 변환되고
 
 16진수 문자열로 변환되어 클레이튼 트랜잭션의 최대크기인 32kb를 초과하지않게 압축된 뒤에 트랜잭션이 발생한다.
 
 가상화폐 지갑과 연결되지 않았기 때문에 입력받은 개인키를 통해서 rawtransaction으로 발생한다.
 
 이러한 과정을 통해 onchain으로 메타정보를 기록할 수 있다.
+
+
+2.buy 버튼을 클릭하는경우 NFT의 소유주가 아닌 USER가 transferOwnership 트랜잭션을 사용하여
+NFT의 소유주를 바꾼다. 이를 통해 반려동물증명 NFT의 소유권을 변경할 수 있다.
 
 # SmartContract
 
@@ -204,8 +208,23 @@ pragma solidity ^0.5.6;
     }
 
   이 함수를 통해서 bitmap으로 전환되어 사진으로 볼수있게 된다.
+```
 
-
+```solidity
+  function transferOwnership(uint256 tokenId, address to) public returns(uint, address, address, address) {
+        safeTransferFrom(msg.sender, to, tokenId);
+        uint ownerHistoryLength = _photoList[tokenId].ownerHistory.length;
+        return (
+            _photoList[tokenId].tokenId,
+            //original owner
+            _photoList[tokenId].ownerHistory[0],
+            //previous owner, length cannot be less than 2
+            _photoList[tokenId].ownerHistory[ownerHistoryLength-2],
+            //current owner
+            _photoList[tokenId].ownerHistory[ownerHistoryLength-1]);
+    }
+```
+ 발행한 NFT의 소유권을 변경하는 함수이다.
 
 
 
