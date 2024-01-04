@@ -107,8 +107,26 @@
 
 # SmartContract
 
+
+```java
+  public  String byteArrayToHex(byte[] byteArray) {
+        if (byteArray == null || byteArray.length == 0) {
+            return null;
+        }
+        StringBuilder stringBuffer = new StringBuilder(byteArray.length * 2);
+        String hexNumber;
+        for (byte aBa : byteArray) {
+            hexNumber = "0" + Integer.toHexString(0xff & aBa);
+
+            stringBuffer.append(hexNumber.substring(hexNumber.length() - 2));
+        }
+        return stringBuffer.toString();
+    }
+```
+이 함수를 통해 변형된 동물사진 데이터는 uploadPhoto트랜잭션의 bytes memory photo 파라미터로 넘어간다.
+
 ```solidity
-// 예시 솔리디티 코드
+
 pragma solidity ^0.5.6;
 
  contract luximal is ERC721, ERC721Enumerable {
@@ -174,6 +192,24 @@ pragma solidity ^0.5.6;
 
  }
  ```
+ 
+```java
+
+  getPhoto함수를 통해 조회한 동물사진 배열은 
+
+       public Bitmap byteArrayToBitmap( byte[] byteArray )
+    {
+        Bitmap bitmap = BitmapFactory.decodeByteArray( byteArray, 0, byteArray.length );
+        return bitmap ;
+    }
+
+  이 함수를 통해서 bitmap으로 전환되어 사진으로 볼수있게 된다.
+
+
+
+
+
+```
 # 프로젝트후기
 
 처음 시작한 팀 프로젝트이며 devdocs를 처음으로 빠짐없이 정독했던 프로젝트이다. NFT가 IPFS에 메타데이터를 기록하는 것이
