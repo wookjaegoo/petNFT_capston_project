@@ -211,6 +211,7 @@ pragma solidity ^0.5.6;
 ```
 
 ```solidity
+pragma solidity ^0.5.6;
   function transferOwnership(uint256 tokenId, address to) public returns(uint, address, address, address) {
         safeTransferFrom(msg.sender, to, tokenId);
         uint ownerHistoryLength = _photoList[tokenId].ownerHistory.length;
