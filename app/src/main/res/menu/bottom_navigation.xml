@@ -4,16 +4,15 @@
     <item
         android:id="@+id/nav_home"
         android:icon="@drawable/ic_home"
-        android:title="home"
-        />
+        android:title="home" />
     <item
         android:id="@+id/nav_mint"
         android:icon="@drawable/ic_nftfactory"
         android:title="mint" />
-<!--    <item-->
-<!--        android:id="@+id/nav_wallet"-->
-<!--        android:icon="@drawable/ic_wallet"-->
-<!--        android:title="wallet" />-->
+    <!--    <item-->
+    <!--        android:id="@+id/nav_wallet"-->
+    <!--        android:icon="@drawable/ic_wallet"-->
+    <!--        android:title="wallet" />-->
 
 
 </menu>

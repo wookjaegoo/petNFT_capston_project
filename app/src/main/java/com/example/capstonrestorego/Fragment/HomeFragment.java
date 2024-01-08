@@ -50,37 +50,29 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class HomeFragment extends Fragment {
 
 
-
-
     private RecyclerView recyclerView;
     private PostnftAdapter postAdapter;
     private List<Post> postLists;
     ProgressBar progressBar;
-    Json abijson= new Json();
-
-
-
-
+    Json abijson = new Json();
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        if (android.os.Build.VERSION.SDK_INT > 9) { StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build(); StrictMode.setThreadPolicy(policy); }
+        if (android.os.Build.VERSION.SDK_INT > 9) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
 
 
-
-        Bundle bundle=getArguments();
-        String Caddress=bundle.getString("userinfo");
-
-
-
-
+        Bundle bundle = getArguments();
+        String Caddress = bundle.getString("userinfo");
 
 
         postLists = new ArrayList<>();
-        postAdapter = new PostnftAdapter(getContext(),postLists,Caddress);
+        postAdapter = new PostnftAdapter(getContext(), postLists, Caddress);
         progressBar = view.findViewById(R.id.progress_circular);
 
 
@@ -96,38 +88,35 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
-    public Bitmap byteArrayToBitmap( byte[] byteArray )
-    {
-        Bitmap bitmap = BitmapFactory.decodeByteArray( byteArray, 0, byteArray.length );
-        return bitmap ;
+    public Bitmap byteArrayToBitmap(byte[] byteArray) {
+        Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+        return bitmap;
     }
 
 
-    public void readpost(Bitmap photo,Post post)
-    {
+    public void readpost(Bitmap photo, Post post) {
         post.setPhoto(photo);
         postLists.add(post);
     }
 
 
-    public void TransactionLog()
-    {
+    public void TransactionLog() {
         String baourl = "https://api.baobab.klaytn.net:8651";
         Caver caver = new Caver(baourl);
 
 
         postLists.clear();
 
-        String realAdd="0xb67a16850c8495033e906c7dfd88d6d363db0905";
-        String secondAdd="0x865df85ddfc3ebe3647bac58c6ccb61d2c8e7858";
+        String realAdd = "0xb67a16850c8495033e906c7dfd88d6d363db0905";
+        String secondAdd = "0x865df85ddfc3ebe3647bac58c6ccb61d2c8e7858";
 
         try {
             //블록 로그 참조
 
-            Contract contract=caver.contract.create(abijson.getABIjson(),realAdd);
+            Contract contract = caver.contract.create(abijson.getABIjson(), realAdd);
             //로그 참조 socket오류로 불가능함.
-           // KlayLogFilter filter = new KlayLogFilter(DefaultBlockParameterName.EARLIEST, DefaultBlockParameterName.LATEST, realAdd, null);
-           // KlayLogs logs = contract.getPastEvent("Transfer", filter);
+            // KlayLogFilter filter = new KlayLogFilter(DefaultBlockParameterName.EARLIEST, DefaultBlockParameterName.LATEST, realAdd, null);
+            // KlayLogs logs = contract.getPastEvent("Transfer", filter);
 
 //            for(int index=10; index>0; index--)
 //            {
@@ -151,27 +140,25 @@ public class HomeFragment extends Fragment {
 //            }
 
 
-            for(int tkindex=240; tkindex<400; tkindex++)
-            {
-                Post post= new Post();
+            for (int tkindex = 240; tkindex < 400; tkindex++) {
+                Post post = new Post();
 
-                List<Type> output=contract.call("getPhoto",tkindex);
+                List<Type> output = contract.call("getPhoto", tkindex);
 
-                if(output.isEmpty())
-                {
+                if (output.isEmpty()) {
                     break;
                 }
 
                 //photodata 정보
-                byte[] photobyte=((DynamicBytes)((ArrayList)output).get(2)).getValue();
-                List OwnerHistoy=((DynamicArray)((ArrayList)output).get(1)).getValue();
+                byte[] photobyte = ((DynamicBytes) ((ArrayList) output).get(2)).getValue();
+                List OwnerHistoy = ((DynamicArray) ((ArrayList) output).get(1)).getValue();
 
                 post.setTokenid(output.get(0).getValue().toString());
-                post.setUsername(OwnerHistoy.get(OwnerHistoy.size()-1).toString());
+                post.setUsername(OwnerHistoy.get(OwnerHistoy.size() - 1).toString());
                 post.setPrice(output.get(3).getValue().toString());
                 post.setInformation1(output.get(4).getValue().toString());
                 post.setInformation2(output.get(5).getValue().toString());
-                readpost(byteArrayToBitmap(photobyte),post);
+                readpost(byteArrayToBitmap(photobyte), post);
             }
 
 
@@ -179,10 +166,9 @@ public class HomeFragment extends Fragment {
             progressBar.setVisibility(View.GONE);
 
 
-
-
-        } catch (IOException | ClassNotFoundException | NoSuchMethodException | InvocationTargetException | java.lang.InstantiationException | IllegalAccessException e)
-        {
+        } catch (IOException | ClassNotFoundException | NoSuchMethodException |
+                 InvocationTargetException | java.lang.InstantiationException |
+                 IllegalAccessException e) {
             progressBar.setVisibility(View.GONE);
             postAdapter.notifyDataSetChanged();
 

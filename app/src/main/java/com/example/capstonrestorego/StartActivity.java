@@ -11,14 +11,14 @@ import com.example.capstonrestorego.Model.UserInfo;
 
 public class StartActivity extends AppCompatActivity {
 
-    Button login,register1;
+    Button login, register1;
 
 
     @Override
     protected void onStart() {
         super.onStart();
 
-            //startActivity(new Intent(StartActivity.this , MainActivity.class));
+        //startActivity(new Intent(StartActivity.this , MainActivity.class));
 
 
     }
@@ -29,7 +29,7 @@ public class StartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_start);
 
         login = findViewById(R.id.login);
-        register1= findViewById(R.id.register1);
+        register1 = findViewById(R.id.register1);
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override

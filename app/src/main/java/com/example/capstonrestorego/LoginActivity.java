@@ -34,10 +34,13 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        if (android.os.Build.VERSION.SDK_INT > 9) { StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build(); StrictMode.setThreadPolicy(policy); }
+        if (android.os.Build.VERSION.SDK_INT > 9) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
 
-        pvKey=findViewById(R.id.pvKey);
-        login= findViewById(R.id.login);
+        pvKey = findViewById(R.id.pvKey);
+        login = findViewById(R.id.login);
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,25 +49,18 @@ public class LoginActivity extends AppCompatActivity {
                 pd.setMessage("please wait....");
                 pd.show();
 
-                String KeyArea=pvKey.getText().toString();
+                String KeyArea = pvKey.getText().toString();
 
-                if (TextUtils.isEmpty(KeyArea))
-                {
+                if (TextUtils.isEmpty(KeyArea)) {
                     Toast.makeText(LoginActivity.this, "ALL Fields are required", Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
+                } else {
 
-                    if(pvKey.getText().toString().length()>63)
-                    {
-                        try
-                        {
+                    if (pvKey.getText().toString().length() > 63) {
+                        try {
                             Accountmatch();
 
                             pd.dismiss();
-                        }
-                        catch(ApiException e)
-                        {
+                        } catch (ApiException e) {
 
                         }
                     }
@@ -77,30 +73,27 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    public void Accountmatch() throws ApiException
-    {
+    public void Accountmatch() throws ApiException {
         CaverExtKAS caver = new CaverExtKAS();
 
-        String accessKeyId="KASKD9KL8U3ZZ952PD63RK4V";
-        String secretAccessKey="Tf4mRN76-gBsqDkUueywDZuQmJPZ-qdjvjMDD2Bj";
+        String accessKeyId = "KASKD9KL8U3ZZ952PD63RK4V";
+        String secretAccessKey = "Tf4mRN76-gBsqDkUueywDZuQmJPZ-qdjvjMDD2Bj";
         caver.initKASAPI(1001, accessKeyId, secretAccessKey);
         List<Account> account = caver.kas.wallet.getAccountList().getItems();
         //저걸 두번 가공해야함 get(0)부터 마지막 인덱스 까지 반복문 돌리면된다.
-        for(int i=0; i<caver.kas.wallet.getAccountList().getItems().size()-1; i++)
-        {
-            String Tpvkey=account.get(i).getKeyId().substring(account.get(3).getKeyId().lastIndexOf(":")).substring(1,67);
-            if(pvKey.getText().toString().equals(Tpvkey))
-            {
+        for (int i = 0; i < caver.kas.wallet.getAccountList().getItems().size() - 1; i++) {
+            String Tpvkey = account.get(i).getKeyId().substring(account.get(3).getKeyId().lastIndexOf(":")).substring(1, 67);
+            if (pvKey.getText().toString().equals(Tpvkey)) {
 
-                User Cuser=new User();
+                User Cuser = new User();
                 Cuser.setAddress(account.get(i).getAddress());
                 Cuser.setPVkey(Tpvkey);
 
-                userInfo=UserInfo.getInstance();
+                userInfo = UserInfo.getInstance();
                 userInfo.setUseradd(Cuser.getAddress());
 
 
-                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 //intent.putExtra("userinfo",Cuser);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
@@ -109,16 +102,10 @@ public class LoginActivity extends AppCompatActivity {
                 finish();
                 break;
 
-            }
-
-            else if(i==caver.kas.wallet.getAccountList().getItems().size()-1)
+            } else if (i == caver.kas.wallet.getAccountList().getItems().size() - 1)
                 Toast.makeText(LoginActivity.this, "없는계정입니다!", Toast.LENGTH_SHORT).show();
 
         }
-
-
-
-
 
 
     }
