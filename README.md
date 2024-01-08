@@ -126,8 +126,8 @@ NFT의 소유주를 바꾼다. 이를 통해 반려동물증명 NFT의 소유권
         }
         return stringBuffer.toString();
     }
-```
 이 함수를 통해 변형된 동물사진 데이터는 uploadPhoto트랜잭션의 bytes memory photo 파라미터로 넘어간다.
+```
 
 ```solidity
 
@@ -211,6 +211,7 @@ pragma solidity ^0.5.6;
 ```
 
 ```solidity
+pragma solidity ^0.5.6;
   function transferOwnership(uint256 tokenId, address to) public returns(uint, address, address, address) {
         safeTransferFrom(msg.sender, to, tokenId);
         uint ownerHistoryLength = _photoList[tokenId].ownerHistory.length;
@@ -223,12 +224,11 @@ pragma solidity ^0.5.6;
             //current owner
             _photoList[tokenId].ownerHistory[ownerHistoryLength-1]);
     }
-```
  발행한 NFT의 소유권을 변경하는 함수이다.
-
-
-
 ```
+
+
+
 # 프로젝트후기
 
 처음 시작한 팀 프로젝트이며 devdocs를 처음으로 빠짐없이 정독했던 프로젝트이다. NFT가 IPFS에 메타데이터를 기록하는 것이
