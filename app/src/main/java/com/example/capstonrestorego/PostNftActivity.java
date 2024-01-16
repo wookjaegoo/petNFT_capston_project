@@ -1,5 +1,4 @@
 package com.example.capstonrestorego;
-
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,13 +8,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.capstonrestorego.Model.Json;
 import com.example.capstonrestorego.Model.Post;
 import com.example.capstonrestorego.Model.User;
@@ -25,16 +22,13 @@ import com.klaytn.caver.contract.Contract;
 import com.klaytn.caver.contract.SendOptions;
 import com.klaytn.caver.wallet.keyring.SingleKeyring;
 import com.squareup.okhttp.OkHttpClient;
-
 import org.web3j.protocol.exceptions.TransactionException;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigInteger;
 import java.util.concurrent.TimeUnit;
-
 import xyz.groundx.caver_ext_kas.CaverExtKAS;
 
 
@@ -142,7 +136,7 @@ public class PostNftActivity extends AppCompatActivity {
 
         String secondAdd = "0x865df85ddfc3ebe3647bac58c6ccb61d2c8e7858";
         String myAddress = "0x819660a4d803ff6235538e312d322fe6dd8af562";
-        String myPVkey = "0xae77986d342aaa6f887fb0c458e82b48fed5c333b4c677e1ae9960c9e99ad9aa";
+        String myPVkey = "";
 
 
         SingleKeyring feePayer = caver.wallet.keyring.create(myAddress, myPVkey);
@@ -164,7 +158,7 @@ public class PostNftActivity extends AppCompatActivity {
 
 
             String accessKey = "KASKD9KL8U3ZZ952PD63RK4V";
-            String secretAccessKey = "Tf4mRN76-gBsqDkUueywDZuQmJPZ-qdjvjMDD2Bj";
+            String secretAccessKey = "";
             CaverExtKAS caver1 = new CaverExtKAS(1001, accessKey, secretAccessKey);
 
 

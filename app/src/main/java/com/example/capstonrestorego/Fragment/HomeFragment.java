@@ -111,33 +111,9 @@ public class HomeFragment extends Fragment {
         String secondAdd = "0x865df85ddfc3ebe3647bac58c6ccb61d2c8e7858";
 
         try {
-            //블록 로그 참조
-
+         
             Contract contract = caver.contract.create(abijson.getABIjson(), realAdd);
-            //로그 참조 socket오류로 불가능함.
-            // KlayLogFilter filter = new KlayLogFilter(DefaultBlockParameterName.EARLIEST, DefaultBlockParameterName.LATEST, realAdd, null);
-            // KlayLogs logs = contract.getPastEvent("Transfer", filter);
-
-//            for(int index=10; index>0; index--)
-//            {
-//                Post post= new Post();
-//                List<KlayLogs.LogResult> logResults = logs.getResult();
-//                KlayLogs.LogObject logObject = (KlayLogs.LogObject)logResults.get(logResults.size()-index);
-//                KlayLogs.Log log = logObject.get();
-//
-//                List<Type> output=contract.call("getPhoto",log.getTopics().get(3));
-//
-//                //photodata 정보
-//                byte[] photobyte=((DynamicBytes)((ArrayList)output).get(2)).getValue();
-//                List OwnerHistoy=((DynamicArray)((ArrayList)output).get(1)).getValue();
-//
-//                post.setTokenid(output.get(0).getValue().toString());
-//                post.setUsername(OwnerHistoy.get(OwnerHistoy.size()-1).toString());
-//                post.setPrice(output.get(3).getValue().toString());
-//                post.setInformation1(output.get(4).getValue().toString());
-//                post.setInformation2(output.get(5).getValue().toString());
-//                readpost(byteArrayToBitmap(photobyte),post);
-//            }
+         
 
 
             for (int tkindex = 240; tkindex < 400; tkindex++) {

@@ -1,12 +1,9 @@
 package com.example.capstonrestorego;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-
 import com.example.capstonrestorego.Fragment.HomeFragment;
 import com.example.capstonrestorego.Model.User;
 import com.example.capstonrestorego.Model.UserInfo;
@@ -14,7 +11,6 @@ import com.google.android.material.navigation.NavigationBarView;
 
 public class MainActivity extends AppCompatActivity {
 
-//일단 스마트컨트랙트 부터 해결하자
 
     Fragment selectFragment = null;
     Bundle bundle = new Bundle();
@@ -30,8 +26,6 @@ public class MainActivity extends AppCompatActivity {
 
 
         userInfo = UserInfo.getInstance();
-
-
         Fragment homefragment;
         homefragment = new HomeFragment();
 

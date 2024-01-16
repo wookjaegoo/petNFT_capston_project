@@ -12,10 +12,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
 import com.example.capstonrestorego.LoginActivity;
 import com.example.capstonrestorego.MainActivity;
@@ -26,14 +24,12 @@ import com.example.capstonrestorego.PostNftActivity;
 import com.example.capstonrestorego.R;
 import com.klaytn.caver.contract.Contract;
 import com.klaytn.caver.contract.SendOptions;
-
 import org.web3j.abi.TypeReference;
 import org.web3j.abi.datatypes.Function;
 import org.web3j.abi.datatypes.Int;
 import org.web3j.abi.datatypes.Type;
 import org.web3j.protocol.core.Request;
 import org.web3j.protocol.exceptions.TransactionException;
-
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigInteger;
@@ -41,7 +37,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
-
 import xyz.groundx.caver_ext_kas.CaverExtKAS;
 import xyz.groundx.caver_ext_kas.kas.kip7.KIP7;
 import xyz.groundx.caver_ext_kas.rest_client.io.swagger.client.ApiException;
@@ -117,25 +112,16 @@ public class PostnftAdapter extends RecyclerView.Adapter<PostnftAdapter.ViewHold
 
                 try {
                     String accessKey = "KASKD9KL8U3ZZ952PD63RK4V";
-                    String secretAccessKey = "Tf4mRN76-gBsqDkUueywDZuQmJPZ-qdjvjMDD2Bj";
+                    String secretAccessKey = "";
                     CaverExtKAS caver = new CaverExtKAS(1001, accessKey, secretAccessKey);
-
                     String contractAddress = "0xb67a16850c8495033e906c7dfd88d6d363db0905";
-
-                    //Caddress means 어플 접속자
-
-
                     String hexBalance = caver.rpc.getKlay().getBalance(Caddress).send().getResult();
                     String klay1 = hexBalance.substring(2);
-
                     BigInteger bigInteger = new BigInteger(klay1, 16);
                     BigInteger bigInteger1 = new BigInteger("1000000000000000000");
                     bigInteger.divide(bigInteger1).toString();
-
                     String Sklay = bigInteger.divide(bigInteger1).toString();
                     Double klay = Double.parseDouble(Sklay);
-
-
                     Double nftPrice = Double.parseDouble(holder.price.getText().toString());
                     int tokenid = Integer.parseInt(holder.tokenid.getText().toString());
 
@@ -145,16 +131,12 @@ public class PostnftAdapter extends RecyclerView.Adapter<PostnftAdapter.ViewHold
                         BigInteger defaulp = new BigInteger("1000000000000000000");
                         BigInteger price1 = new BigInteger(holder.price.getText().toString());
                         String value = price1.multiply(defaulp).toString(16);
-
                         ValueTransferTransactionRequest request = new ValueTransferTransactionRequest();
                         request.setFrom(Caddress);
                         request.setTo(holder.username.getText().toString());
                         request.setValue("0x" + value);
                         request.setSubmit(true);
                         caver.kas.wallet.requestValueTransfer(request);
-                        //long으로 값 넘기기힘듬 클레이 단위 1의자리 아니면
-
-                        //nft 양도 거래 진행
                         Contract sampleContract = new Contract(caver, abijson.getABIjson(), contractAddress);
                         SendOptions sendOptions1 = new SendOptions(holder.username.getText().toString(), BigInteger.valueOf(50000000));
                         sampleContract.send(sendOptions1, "approve", Caddress, tokenid);
@@ -169,7 +151,6 @@ public class PostnftAdapter extends RecyclerView.Adapter<PostnftAdapter.ViewHold
                     }
 
 
-//                    잔고조회 이때 로그인 객체에서 받은 주소로 nft살만한 잔고있으면 결제 ㄱ
                 } catch (IOException | ApiException | TransactionException |
                          ClassNotFoundException | NoSuchMethodException |
                          InvocationTargetException | InstantiationException |

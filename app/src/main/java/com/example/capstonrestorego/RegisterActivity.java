@@ -1,14 +1,11 @@
 package com.example.capstonrestorego;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import xyz.groundx.caver_ext_kas.CaverExtKAS;
 import xyz.groundx.caver_ext_kas.rest_client.io.swagger.client.ApiException;
 import xyz.groundx.caver_ext_kas.rest_client.io.swagger.client.api.wallet.model.Account;
@@ -68,9 +65,7 @@ public class RegisterActivity extends AppCompatActivity {
         caver.initKASAPI(1001, accessKeyId, secretAccessKey);
         Account account = caver.kas.wallet.createAccount();
         address.setText("계정주소" + account.getAddress());
-
         String fpvkey = account.getKeyId().substring(account.getKeyId().lastIndexOf(":"));
-        //:포함 개인키 밑에건 제끼고 나열열
         pvKey.setText("개인키:" + fpvkey.substring(1));
 
     }
