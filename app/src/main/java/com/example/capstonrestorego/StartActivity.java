@@ -18,9 +18,6 @@ public class StartActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        //startActivity(new Intent(StartActivity.this , MainActivity.class));
-
-
     }
 
     @Override

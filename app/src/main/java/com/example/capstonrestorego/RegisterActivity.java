@@ -64,7 +64,7 @@ public class RegisterActivity extends AppCompatActivity {
         CaverExtKAS caver = new CaverExtKAS();
 
         String accessKeyId = "KASKD9KL8U3ZZ952PD63RK4V";
-        String secretAccessKey = "Tf4mRN76-gBsqDkUueywDZuQmJPZ-qdjvjMDD2Bj";
+        String secretAccessKey = "";
         caver.initKASAPI(1001, accessKeyId, secretAccessKey);
         Account account = caver.kas.wallet.createAccount();
         address.setText("계정주소" + account.getAddress());

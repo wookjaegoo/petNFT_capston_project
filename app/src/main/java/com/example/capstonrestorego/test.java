@@ -48,13 +48,7 @@ import xyz.groundx.caver_ext_kas.rest_client.io.swagger.client.api.wallet.model.
 import xyz.groundx.caver_ext_kas.rest_client.io.swagger.client.api.wallet.model.TransactionResult;
 import xyz.groundx.caver_ext_kas.rest_client.io.swagger.client.api.wallet.model.ValueTransferTransactionRequest;
 
-public class ContractEx {
-
-
-
-
-
-
+public class test {
 
     private static final String byteCode = "60556023600b82828239805160001a607314601657fe5b30600052607381538281f3fe73000000000000000000000000000000000000000030146080604052600080fdfea265627a7a723158200660728a5900e6186b9feb89a478d230e28b6dab3ba3a5d8ca5a97fb55101cc164736f6c63430005110032";
     static EditText description, location, fileName = null;
@@ -65,7 +59,7 @@ public class ContractEx {
     public static void signTransact() {
         Caver caver = new Caver(baourl);
         String contractAddress = "0x819660a4d803ff6235538e312d322fe6dd8af562";
-        SingleKeyring feePayer = caver.wallet.keyring.create(contractAddress, "0xae77986d342aaa6f887fb0c458e82b48fed5c333b4c677e1ae9960c9e99ad9aa");
+        SingleKeyring feePayer = caver.wallet.keyring.create(contractAddress, "pvkey");
         caver.wallet.add(feePayer);
 
 
@@ -79,18 +73,6 @@ public class ContractEx {
             sendOptions.setFeePayer(feePayer.getAddress());
             sendOptions.setFeeDelegation(true);
             contract.send(sendOptions, "uploadPhoto", photodata, "sdf", "destination", "location");
-
-//            String accessKey = "KASKD9KL8U3ZZ952PD63RK4V";
-//            String secretAccessKey ="Tf4mRN76-gBsqDkUueywDZuQmJPZ-qdjvjMDD2Bj";
-//
-//            CaverExtKAS caver1 = new CaverExtKAS(1001, accessKey, secretAccessKey);
-//
-//            String contractAddress1 = "0xb67a16850c8495033e906c7dfd88d6d363db0905";
-//            String executor = "0x{address}";
-//            Contract sampleContract = new Contract(caver1, abijon.getABIjson(), contractAddress1);
-//
-//            SendOptions sendOptions1 = new SendOptions(executor, BigInteger.valueOf(5000000));
-//            sampleContract.send(sendOptions1, "uploadPhoto", photodata, "value","value","value");
 
 
 
@@ -132,7 +114,7 @@ public class ContractEx {
     {
         Caver caver = new Caver(baourl);
         String contractAddress = "0x819660a4d803ff6235538e312d322fe6dd8af562";
-        SingleKeyring feePayer = caver.wallet.keyring.create(contractAddress, "0xae77986d342aaa6f887fb0c458e82b48fed5c333b4c677e1ae9960c9e99ad9aa");
+        SingleKeyring feePayer = caver.wallet.keyring.create(contractAddress, "pvkey");
         caver.wallet.add(feePayer);
 
 
@@ -186,7 +168,7 @@ public class ContractEx {
             CaverExtKAS caver = new CaverExtKAS();
 
             String accessKeyId="KASKD9KL8U3ZZ952PD63RK4V";
-            String secretAccessKey="Tf4mRN76-gBsqDkUueywDZuQmJPZ-qdjvjMDD2Bj";
+            String secretAccessKey="pvkey";
             caver.initKASAPI(1001, accessKeyId, secretAccessKey);
 
             Account account = caver.kas.wallet.createAccount();
@@ -201,14 +183,12 @@ public class ContractEx {
         {
             try{
                 String accessKey = "KASKD9KL8U3ZZ952PD63RK4V";
-                String secretAccessKey ="Tf4mRN76-gBsqDkUueywDZuQmJPZ-qdjvjMDD2Bj";
+                String secretAccessKey ="pvkey";
                 CaverExtKAS caver = new CaverExtKAS(1001, accessKey, secretAccessKey);
                 String contractAddress = "0xb67a16850c8495033e906c7dfd88d6d363db0905";
                 SendOptions sendOptions1 = new SendOptions("0x55772B1eBADf827068E4C68B6986d6C9Dadef072", BigInteger.valueOf(50000000));
                 Contract sampleContract = new Contract(caver, abijon.getABIjson(), contractAddress);
                 sampleContract.send(sendOptions1,"approve","0xe2f5b85d20A36832731B815aF5Ad33e29767A7b1",250);
-                // owner가 아닌 주소에 대해서 tokend id 랑 같이 먼저 approve 해준뒤에 밑에 트랜잭션 일어나게해야함
-                //payer는 nft 소유자고 approve 랑 transferownership의 파라미터는 그 nft를 받을 사람임 ..
                 sampleContract.send(sendOptions1,"transferOwnership",250,"0xe2f5b85d20A36832731B815aF5Ad33e29767A7b1");
 
             }
