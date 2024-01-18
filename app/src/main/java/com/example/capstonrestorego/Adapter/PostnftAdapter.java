@@ -30,6 +30,7 @@ import org.web3j.abi.datatypes.Int;
 import org.web3j.abi.datatypes.Type;
 import org.web3j.protocol.core.Request;
 import org.web3j.protocol.exceptions.TransactionException;
+
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigInteger;
@@ -37,6 +38,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+
 import xyz.groundx.caver_ext_kas.CaverExtKAS;
 import xyz.groundx.caver_ext_kas.kas.kip7.KIP7;
 import xyz.groundx.caver_ext_kas.rest_client.io.swagger.client.ApiException;
@@ -83,8 +85,8 @@ public class PostnftAdapter extends RecyclerView.Adapter<PostnftAdapter.ViewHold
             try {
                 handleBuyClick(holder);
             } catch (IOException | ApiException | TransactionException | ClassNotFoundException |
-                    NoSuchMethodException | InvocationTargetException | InstantiationException |
-                    IllegalAccessException e) {
+                     NoSuchMethodException | InvocationTargetException | InstantiationException |
+                     IllegalAccessException e) {
                 e.printStackTrace();
             }
         });

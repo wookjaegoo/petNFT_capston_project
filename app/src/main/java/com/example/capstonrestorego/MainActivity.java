@@ -1,31 +1,30 @@
 package com.example.capstonrestorego;
+
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import com.example.capstonrestorego.Fragment.HomeFragment;
-import com.example.capstonrestorego.Model.User;
 import com.example.capstonrestorego.Model.UserInfo;
 import com.google.android.material.navigation.NavigationBarView;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static Intent intent1 = new Intent();
     private Fragment selectFragment = null;
     private Bundle bundle = new Bundle();
-    private static Intent intent1 = new Intent();
     private UserInfo userInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
+
         NavigationBarView navigationBarView = findViewById(R.id.bottom_navigation);
         userInfo = UserInfo.getInstance();
-        
+
         Fragment homeFragment = new HomeFragment();
-        
+
         if (intent1 != null) {
             bundle.putString("userinfo", userInfo.getUseradd());
             homeFragment.setArguments(bundle);
@@ -50,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
             if (selectFragment != null) {
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectFragment).commit();
             }
-            
+
             return false;
         });
     }
