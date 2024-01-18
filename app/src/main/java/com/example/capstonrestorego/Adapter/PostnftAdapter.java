@@ -44,24 +44,22 @@ import xyz.groundx.caver_ext_kas.rest_client.io.swagger.client.api.wallet.model.
 import xyz.groundx.caver_ext_kas.rest_client.io.swagger.client.api.wallet.model.ValueTransferTransactionRequest;
 
 public class PostnftAdapter extends RecyclerView.Adapter<PostnftAdapter.ViewHolder> {
-    public Context mContext;
-    private List<Post> mPost;
-    public String Caddress;
-    Json abijson = new Json();
-    public static final String FUNC_TRANSFERFROM = "transferFrom";
 
+    private Context mContext;
+    private List<Post> mPost;
+    private String Caddress;
+    private Json abijson = new Json();
+    public static final String FUNC_TRANSFERFROM = "transferFrom";
 
     public PostnftAdapter(Context mContext, List<Post> mPost, String Caddress) {
         this.mContext = mContext;
         this.mPost = mPost;
         this.Caddress = Caddress;
-
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
         View view = LayoutInflater.from(mContext).inflate(R.layout.post_item, parent, false);
         if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -72,102 +70,86 @@ public class PostnftAdapter extends RecyclerView.Adapter<PostnftAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
         Post post = mPost.get(position);
-        Glide.with(mContext).asBitmap().load(post.getPhoto()).into(holder.post_image);
+        loadImage(post.getPhoto(), holder.post_image);
         holder.username.setText(post.getUsername());
 
+        setVisibility(holder.description, post.getInformation2());
+        setVisibility(holder.location, post.getInformation1());
+        setVisibility(holder.price, post.getPrice());
+        setVisibility(holder.tokenid, post.getTokenid());
 
-        if (post.getInformation2().equals("")) {
-            holder.description.setVisibility(View.GONE);
-        } else {
-            holder.description.setVisibility(View.VISIBLE);
-            holder.description.setText(post.getInformation2());
-        }
-
-        if (post.getInformation1().equals("")) {
-            holder.location.setVisibility(View.GONE);
-        } else {
-            holder.location.setVisibility(View.VISIBLE);
-            holder.location.setText(post.getInformation1());
-        }
-
-        if (post.getPrice().equals("")) {
-            holder.title.setVisibility(View.GONE);
-        } else {
-            holder.price.setVisibility(View.VISIBLE);
-            holder.price.setText(post.getPrice());
-        }
-        if (post.getTokenid().equals("")) {
-            holder.tokenid.setVisibility(View.GONE);
-        } else {
-            holder.tokenid.setVisibility(View.VISIBLE);
-            holder.tokenid.setText(post.getTokenid());
-        }
-
-
-        holder.buy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                try {
-                    String accessKey = "KASKD9KL8U3ZZ952PD63RK4V";
-                    String secretAccessKey = "";
-                    CaverExtKAS caver = new CaverExtKAS(1001, accessKey, secretAccessKey);
-                    String contractAddress = "0xb67a16850c8495033e906c7dfd88d6d363db0905";
-                    String hexBalance = caver.rpc.getKlay().getBalance(Caddress).send().getResult();
-                    String klay1 = hexBalance.substring(2);
-                    BigInteger bigInteger = new BigInteger(klay1, 16);
-                    BigInteger bigInteger1 = new BigInteger("1000000000000000000");
-                    bigInteger.divide(bigInteger1).toString();
-                    String Sklay = bigInteger.divide(bigInteger1).toString();
-                    Double klay = Double.parseDouble(Sklay);
-                    Double nftPrice = Double.parseDouble(holder.price.getText().toString());
-                    int tokenid = Integer.parseInt(holder.tokenid.getText().toString());
-
-                    if (klay > nftPrice && !holder.username.getText().toString().equals(Caddress.toLowerCase(Locale.ROOT))) {
-                        //판매자 한테 선입금
-
-                        BigInteger defaulp = new BigInteger("1000000000000000000");
-                        BigInteger price1 = new BigInteger(holder.price.getText().toString());
-                        String value = price1.multiply(defaulp).toString(16);
-                        ValueTransferTransactionRequest request = new ValueTransferTransactionRequest();
-                        request.setFrom(Caddress);
-                        request.setTo(holder.username.getText().toString());
-                        request.setValue("0x" + value);
-                        request.setSubmit(true);
-                        caver.kas.wallet.requestValueTransfer(request);
-                        Contract sampleContract = new Contract(caver, abijson.getABIjson(), contractAddress);
-                        SendOptions sendOptions1 = new SendOptions(holder.username.getText().toString(), BigInteger.valueOf(50000000));
-                        sampleContract.send(sendOptions1, "approve", Caddress, tokenid);
-                        sampleContract.send(sendOptions1, "transferOwnership", tokenid, Caddress);
-
-
-                    } else if (holder.username.getText().toString().equals(Caddress.toLowerCase(Locale.ROOT))) {
-
-                        Toast.makeText(mContext, "본인의 nft 입니다!", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(mContext, "잔액이 부족합니다!", Toast.LENGTH_SHORT).show();
-                    }
-
-
-                } catch (IOException | ApiException | TransactionException |
-                         ClassNotFoundException | NoSuchMethodException |
-                         InvocationTargetException | InstantiationException |
-                         IllegalAccessException e) {
-
-                }
-
+        holder.buy.setOnClickListener(view -> {
+            try {
+                handleBuyClick(holder);
+            } catch (IOException | ApiException | TransactionException | ClassNotFoundException |
+                    NoSuchMethodException | InvocationTargetException | InstantiationException |
+                    IllegalAccessException e) {
+                e.printStackTrace();
             }
         });
-
-
     }
-
 
     @Override
     public int getItemCount() {
         return mPost.size();
+    }
+
+    private void loadImage(Bitmap photo, ImageView imageView) {
+        Glide.with(mContext).asBitmap().load(photo).into(imageView);
+    }
+
+    private void setVisibility(View view, String text) {
+        if (text == null || text.isEmpty()) {
+            view.setVisibility(View.GONE);
+        } else {
+            view.setVisibility(View.VISIBLE);
+            ((TextView) view).setText(text);
+        }
+    }
+
+    private void handleBuyClick(ViewHolder holder) throws IOException, ApiException, TransactionException,
+            ClassNotFoundException, NoSuchMethodException, InvocationTargetException,
+            InstantiationException, IllegalAccessException {
+        String accessKey = "KASKD9KL8U3ZZ952PD63RK4V";
+        String secretAccessKey = "";
+        CaverExtKAS caver = new CaverExtKAS(1001, accessKey, secretAccessKey);
+        String contractAddress = "0xb67a16850c8495033e906c7dfd88d6d363db0905";
+
+        String hexBalance = caver.rpc.getKlay().getBalance(Caddress).send().getResult();
+        BigInteger klayBalance = new BigInteger(hexBalance.substring(2), 16);
+        BigInteger oneKlay = new BigInteger("1000000000000000000");
+        double klay = klayBalance.divide(oneKlay).doubleValue();
+        double nftPrice = Double.parseDouble(holder.price.getText().toString());
+        int tokenId = Integer.parseInt(holder.tokenid.getText().toString());
+
+        if (klay > nftPrice && !holder.username.getText().toString().equals(Caddress.toLowerCase(Locale.ROOT))) {
+            // 판매자에게 선입금
+            makeTransferOwnership(caver, holder, contractAddress, tokenId);
+
+        } else if (holder.username.getText().toString().equals(Caddress.toLowerCase(Locale.ROOT))) {
+            Toast.makeText(mContext, "본인의 NFT입니다!", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(mContext, "잔액이 부족합니다!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void makeTransferOwnership(CaverExtKAS caver, ViewHolder holder, String contractAddress, int tokenId) throws TransactionException {
+        BigInteger defaultP = new BigInteger("1000000000000000000");
+        BigInteger price1 = new BigInteger(holder.price.getText().toString());
+        String value = price1.multiply(defaultP).toString(16);
+
+        ValueTransferTransactionRequest request = new ValueTransferTransactionRequest();
+        request.setFrom(Caddress);
+        request.setTo(holder.username.getText().toString());
+        request.setValue("0x" + value);
+        request.setSubmit(true);
+        caver.kas.wallet.requestValueTransfer(request);
+
+        Contract sampleContract = new Contract(caver, abijson.getABIjson(), contractAddress);
+        SendOptions sendOptions1 = new SendOptions(holder.username.getText().toString(), BigInteger.valueOf(50000000));
+        sampleContract.send(sendOptions1, "approve", Caddress, tokenId);
+        sampleContract.send(sendOptions1, "transferOwnership", tokenId, Caddress);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -177,7 +159,6 @@ public class PostnftAdapter extends RecyclerView.Adapter<PostnftAdapter.ViewHold
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
             post_image = itemView.findViewById(R.id.post_image);
             description = itemView.findViewById(R.id.description);
             title = itemView.findViewById(R.id.title);
@@ -186,10 +167,6 @@ public class PostnftAdapter extends RecyclerView.Adapter<PostnftAdapter.ViewHold
             buy = itemView.findViewById(R.id.buy);
             price = itemView.findViewById(R.id.price);
             tokenid = itemView.findViewById(R.id.token_id);
-
-
         }
     }
-
-
 }
